@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ACTIONS_CORS_HEADERS } from '@solana/actions';
-import cors from 'cors';
+import * as cors from 'cors';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import express from 'express';
-import serverless from 'serverless-http';
+import * as express from 'express'; // 使用 `* as` 语法
+import * as serverless from 'serverless-http'; // 确保 `serverless` 导入正确
 
 const expressApp = express();
 
