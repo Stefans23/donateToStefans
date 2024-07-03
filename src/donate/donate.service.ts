@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram } from '@solana/web3.js';
-import { prepareTransaction } from 'src/shared/transaction-utils';
+import { prepareTransaction } from '../shared/transaction-utils';
 
 @Injectable()
 export class DonateService {

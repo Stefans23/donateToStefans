@@ -16,6 +16,8 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "node",  // 添加模块解析
+    "esModuleInterop": true,  // 确保 ES 模块互操作性
   }
 }
