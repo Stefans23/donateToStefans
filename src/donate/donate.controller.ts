@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Header,
-  HttpCode,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { DonateService } from './donate.service';
 import {
   ACTIONS_CORS_HEADERS,
@@ -27,15 +19,13 @@ export class DonateController {
   }
 
   @Get('/:amount')
-  @Header('Access-Control-Allow-Origin', '*')
   @HttpCode(200)
   getDonationInfoWithAmount(@Param('amount') amount: string) {
     return this.donateService.getDonateInfoWithAmount(amount);
   }
 
   @Post('/:amount')
-  //   @HttpCode(200)
-  @Header('Access-Control-Allow-Origin', '*')
+  @HttpCode(200)
   async postDonation(
     @Param('amount') amount: string,
     @Body() body: ActionPostRequest,
