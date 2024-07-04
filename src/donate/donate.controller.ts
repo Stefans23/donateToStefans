@@ -1,7 +1,15 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+// donate.controller.ts
+import {
+  Body,
+  Controller,
+  Get,
+  Header,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { DonateService } from './donate.service';
 import {
-  ACTIONS_CORS_HEADERS,
   ActionGetResponse,
   ActionPostRequest,
   ActionPostResponse,
@@ -12,20 +20,40 @@ export class DonateController {
   constructor(private readonly donateService: DonateService) {}
 
   @Get('/')
+  // @Header('Access-Control-Allow-Origin', '*')
+  // @Header('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS')
+  // @Header(
+  //   'Access-Control-Allow-Headers',
+  //   'Content-Type, Authorization, Content-Encoding, Accept-Encoding',
+  // )
+  // @Header('Content-Type', 'application/json')
   @HttpCode(200)
   getDonationInfo() {
-    ACTIONS_CORS_HEADERS;
     return this.donateService.getDonateInfo() as ActionGetResponse;
   }
 
   @Get('/:amount')
+  // @Header('Access-Control-Allow-Origin', '*')
+  // @Header('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS')
+  // @Header(
+  //   'Access-Control-Allow-Headers',
+  //   'Content-Type, Authorization, Content-Encoding, Accept-Encoding',
+  // )
+  // @Header('Content-Type', 'application/json')
   @HttpCode(200)
   getDonationInfoWithAmount(@Param('amount') amount: string) {
     return this.donateService.getDonateInfoWithAmount(amount);
   }
 
   @Post('/:amount')
-  @HttpCode(200)
+  // @Header('Access-Control-Allow-Origin', '*')
+  // @Header('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS')
+  // @Header(
+  //   'Access-Control-Allow-Headers',
+  //   'Content-Type, Authorization, Content-Encoding, Accept-Encoding',
+  // )
+  // @Header('Content-Type', 'application/json')
+  @HttpCode(201)
   async postDonation(
     @Param('amount') amount: string,
     @Body() body: ActionPostRequest,
@@ -33,12 +61,16 @@ export class DonateController {
     const parsedAmount = parseFloat(
       amount || this.donateService.defaultAmount.toString(),
     );
-    const transaction = await this.donateService.prepareDonateTransaction(
-      body.account,
-      parsedAmount,
-    );
-    return {
-      transaction: Buffer.from(transaction.serialize()).toString('base64'),
-    };
+    try {
+      const transaction = await this.donateService.prepareDonateTransaction(
+        body.account,
+        parsedAmount,
+      );
+      return {
+        transaction: Buffer.from(transaction.serialize()).toString('base64'),
+      };
+    } catch (error) {
+      console.error('Error preparing donation transaction:', error);
+    }
   }
 }
